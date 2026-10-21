@@ -1,6 +1,7 @@
 import { choiceProbabilities, utilitiesFromMatrix } from "./choice.js";
 import { dot, format } from "./math.js";
 import { parseChoiceCSV } from "./upload.js";
+import { initPaperExample } from "./paper-example.js";
 import {
   ITEM_NAMES, EXAMPLE_MATRIX, RANK_ONE_MATRIX, copyMatrix,
   fitMatrixAtAllRanks, reconstruct,
@@ -530,5 +531,6 @@ byId("download-results").addEventListener("click", downloadResults);
 
 renderSource();
 updateMatrix();
+initPaperExample();
 const startingView = location.hash.slice(1);
 setView(["matrix", "experiment", "paper"].includes(startingView) ? startingView : "matrix");

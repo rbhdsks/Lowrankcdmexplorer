@@ -4,6 +4,7 @@ import { choiceProbabilities, generateChoices, utilitiesFromMatrix } from "../sr
 import { parseChoiceCSV } from "../src/upload.js";
 import { fitModel, evaluate, runExperiment, runScalingStudy } from "../src/fit.js";
 import { dot, softmax } from "../src/math.js";
+import { factorProduct, meanExampleNLL, observedChoice } from "../src/paper-example.js";
 import {
   EXAMPLE_MATRIX, RANK_ONE_MATRIX, fitMatrixAtAllRanks, reconstruct,
   offDiagonalRMSE,
@@ -22,6 +23,20 @@ test("directed CDM effects, menu utilities, and probabilities", () => {
   const tripleOdds = Math.exp(triple[0] - triple[1]);
   assert.ok(Math.abs(pairOdds - tripleOdds) > 0.1);
   assert.ok(softmax([1000, 1001]).every(Number.isFinite));
+});
+
+test("Nitesh's worked example reproduces the notes across ranks 1–3", () => {
+  const expectedAB = [0.10, 0.11, 0.23];
+  const expectedMeans = [0.7510, 0.7425, 0.7536];
+  const expectedTripleB = [0.3535, 0.3651, 0.3398];
+  for (const [index, rank] of [1, 2, 3].entries()) {
+    assert.ok(Math.abs(factorProduct(rank)[0][1] - expectedAB[index]) < 1e-12);
+    assert.ok(Math.abs(meanExampleNLL(rank) - expectedMeans[index]) < 0.00005);
+    const triple = observedChoice(rank, 5);
+    assert.deepEqual(triple.scores.length, 3);
+    assert.ok(Math.abs(triple.chosenProbability - expectedTripleB[index]) < 0.00005);
+    assert.ok(Math.abs(triple.probabilities.reduce((sum, p) => sum + p, 0) - 1) < 1e-12);
+  }
 });
 
 test("factor dot products reconstruct a rank-one example and unused diagonal stays excluded", () => {

@@ -6,7 +6,13 @@ It has three parts:
 
 1. **Matrix studio:** Edit a four-item directed interaction matrix, move rank 1–4, inspect target and context factors, click a reconstructed cell to see its dot product, compare off-diagonal RMSE, and see how the choice set changes softmax probabilities and A/B odds.
 2. **Experiment lab:** Generate seeded synthetic choices from MNL, rank-2 CDM, or a full CDM; fit MNL, ranks 1–4, and a full CDM on identical data; compare training and validation NLL; select rank by validation and report test NLL. A second button runs a three-trial recovery scaling study over four nested sample sizes, with a `1/m` visual guide. You can also upload a small choice CSV in the documented format. Change items, sample count, choice-set sampling, effect scale, restarts, and seed. Download a run's summary as CSV.
-3. **Paper guide:** Short equations and boundaries of the demonstration.
+3. **Paper guide:** Short equations, attribution, and an interactive worked example from Nitesh's study notes. Choose rank 1–3 and one of six Chai–Coffee–Juice choices to inspect the target/context factors, their product, scores, choice probabilities, and average NLL.
+
+## Notes and attribution
+
+The Paper Guide's Chai–Coffee–Juice dataset, chosen initial factors, and step-by-step teaching example are adapted from the original study notes of **Nitesh Kumar Shah**, developed under the supervision of **Prof. Suryanarayana Sankagiri**, IIT Madras. The underlying Context-Dependent Model and its low-rank construction are from [Seshadri, Peysakhovich, and Ugander (ICML 2019)](https://proceedings.mlr.press/v97/seshadri19a.html). The six toy choices and the rank 1–3 numbers are **illustrations, not the paper's experimental data or fitted results**. Their mean NLL values describe the displayed initial factors; no optimization is performed in this worked example.
+
+[Open the interactive Paper Guide](https://rbhdsks.github.io/Lowrankcdmexplorer/#paper).
 
 ## Run locally
 
@@ -87,6 +93,7 @@ The paper studies synthetic data and compares held-out NLL for MNL and CDMs of v
 | `index.html` | Structure and beginner explanations |
 | `styles.css` | Responsive visual design |
 | `src/app.js` | UI state, controls, charts, CSV export |
+| `src/paper-example.js` | Nitesh's illustrative factors and six choices; Paper Guide calculations and controls |
 | `src/math.js` | Stable softmax, seeded random numbers, small linear solver |
 | `src/matrix.js` | Off-diagonal matrix factorization and reconstruction |
 | `src/choice.js` | Menus, synthetic truth, choices, splits |
